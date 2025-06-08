@@ -5,6 +5,8 @@ const app = express();
 const PORT = CONFIG.PORT;
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const errorHandler = require('./middlewares/errors/errorHandler');
+const { ValidationRequestError } = require('./middlewares/errors/errorTypes');
 
 // global middleware
 app.use(cookieParser());
@@ -17,8 +19,11 @@ app.use(
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  throw new ValidationRequestError('bad request');
 });
+
+// error handler
+app.use(errorHandler);
 
 // sinkronisasi database dan jalankan server setelahnya
 syncDatabase()
