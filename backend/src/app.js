@@ -5,6 +5,8 @@ const app = express();
 const PORT = CONFIG.PORT;
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const errorHandler = require('./middlewares/errors/errorHandler');
+const apiRoutes = require('./routes');
 
 // global middleware
 app.use(cookieParser());
@@ -16,9 +18,11 @@ app.use(
 );
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+// global route
+app.use('/api', apiRoutes);
+
+// error handler
+app.use(errorHandler);
 
 // sinkronisasi database dan jalankan server setelahnya
 syncDatabase()
