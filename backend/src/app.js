@@ -6,7 +6,7 @@ const PORT = CONFIG.PORT;
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const errorHandler = require('./middlewares/errors/errorHandler');
-const globalRoutes = require('./routes');
+const apiRoutes = require('./routes');
 
 // global middleware
 app.use(cookieParser());
@@ -19,7 +19,7 @@ app.use(
 app.use(express.json());
 
 // global route
-app.use('/api', globalRoutes);
+app.use('/api', apiRoutes);
 
 // error handler
 app.use(errorHandler);
