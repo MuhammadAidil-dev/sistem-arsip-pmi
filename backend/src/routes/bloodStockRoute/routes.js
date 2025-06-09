@@ -5,6 +5,7 @@ const {
 } = require('../../middlewares/validations/validationRequest');
 const {
   createBloodStockSchema,
+  updateBloodStockSchema,
 } = require('../../lib/validations/bloodStock.validations');
 const bloodStockRoutes = express.Router();
 
@@ -14,5 +15,11 @@ bloodStockRoutes.post(
   validateRequest(createBloodStockSchema),
   bloodStockController.createStock
 );
+bloodStockRoutes.put(
+  '/:id',
+  validateRequest(updateBloodStockSchema),
+  bloodStockController.updateStock
+);
+bloodStockRoutes.delete('/:id', bloodStockController.deleteStock);
 
 module.exports = bloodStockRoutes;

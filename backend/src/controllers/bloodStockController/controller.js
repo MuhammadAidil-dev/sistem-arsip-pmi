@@ -1,4 +1,5 @@
 const { CODE } = require('../../config/errorConfig');
+const { NotFoundError } = require('../../middlewares/errors/errorTypes');
 const BloodStock = require('../../models/bloodStockModel/model');
 
 const bloodStockController = {
@@ -59,6 +60,42 @@ const bloodStockController = {
         return next(error);
       }
 
+      next(error);
+    }
+  },
+  updateStock: async (req, res, next) => {
+    try {
+      const payload = req.body;
+      const { id } = req.params;
+      const bloodStock = await BloodStock.findByPk(id);
+      if (!bloodStock) {
+        throw new NotFoundError('Data tidak ditemukan');
+      }
+
+      const updatedStock = await bloodStock.update(payload);
+      return res.status(CODE.success).json({
+        status: 'success',
+        message: 'Berhasil memperbarui data stok',
+        data: updatedStock,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  deleteStock: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const bloodStock = await BloodStock.findByPk(id);
+      if (!bloodStock) {
+        throw new NotFoundError('Data tidak ditemukan');
+      }
+
+      await bloodStock.destroy();
+      return res.status(CODE.success).json({
+        status: 'success',
+        message: 'Berhasil menghapus data stok',
+      });
+    } catch (error) {
       next(error);
     }
   },
