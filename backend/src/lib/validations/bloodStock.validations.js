@@ -9,4 +9,13 @@ const createBloodStockSchema = Joi.object({
   quantity: Joi.number().integer().min(0).required(),
 });
 
-module.exports = { createBloodStockSchema };
+const updateBloodStockSchema = Joi.object({
+  blood_type: Joi.string().valid('A', 'B', 'AB', 'O').optional(),
+  rhesus: Joi.string().valid('+', '-').optional(),
+  blood_component_type: Joi.string()
+    .valid('WB', 'PRC', 'TC', 'FFP', 'CRYO')
+    .optional(),
+  quantity: Joi.number().integer().min(0).optional(),
+});
+
+module.exports = { createBloodStockSchema, updateBloodStockSchema };
