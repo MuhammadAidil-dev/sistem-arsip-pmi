@@ -12,4 +12,5 @@ export const ERROR_OBJ = {
   notFound: 'NotFoundError',
   validationError: 'ValidationError',
   internal: 'InternalServerError',
+  authenticateError: 'AuthenticateError',
 };

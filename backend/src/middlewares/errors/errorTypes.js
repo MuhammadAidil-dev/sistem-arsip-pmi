@@ -16,4 +16,12 @@ class ValidationRequestError extends Error {
   }
 }
 
-module.exports = { NotFoundError, ValidationRequestError };
+class AuthenticateError extends Error {
+  constructor(message, statusCode) {
+    super(message, statusCode);
+    this.name = ERROR_OBJ.authenticateError;
+    this.statusCode = statusCode || CODE.authorized;
+  }
+}
+
+module.exports = { NotFoundError, ValidationRequestError, AuthenticateError };

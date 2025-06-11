@@ -21,6 +21,12 @@ const errorHandler = (err, req, res, next) => {
         message: err.message || 'Validation error',
       });
 
+    case ERROR_OBJ.authenticateError:
+      return res.status(err.statusCode).json({
+        status: 'error',
+        message: err.message || 'Not authenticated',
+      });
+
     default:
       return res.status(err.statusCode || CODE.error).json({
         status: 'error',
