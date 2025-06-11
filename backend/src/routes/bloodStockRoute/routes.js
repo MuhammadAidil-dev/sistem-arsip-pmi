@@ -3,15 +3,22 @@ const bloodStockController = require('../../controllers/bloodStockController/con
 const {
   validateRequest,
 } = require('../../middlewares/validations/validationRequest');
+
 const {
   createBloodStockSchema,
   updateBloodStockSchema,
 } = require('../../lib/validations/bloodStock.validations');
+const {
+  authenticate,
+  authorizeRole,
+} = require('../../middlewares/authenticate/authenticateMiddlewares');
 const bloodStockRoutes = express.Router();
 
 bloodStockRoutes.get('/', bloodStockController.getAllData);
 bloodStockRoutes.post(
   '/',
+  authenticate,
+  authorizeRole('admin'),
   validateRequest(createBloodStockSchema),
   bloodStockController.createStock
 );
