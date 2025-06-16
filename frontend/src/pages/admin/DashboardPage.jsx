@@ -1,5 +1,5 @@
 import AdminLayout from '../../components/layouts/AdminLayout';
-import StokDisplay from '../../components/pages/admin/StokDisplay';
+import StokDisplay from '../../components/views/admin/StokDisplay';
 
 const DashboardPage = () => {
   return (
