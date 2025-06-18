@@ -1,5 +1,6 @@
 import { FiArchive } from 'react-icons/fi';
-import { MdLogout } from 'react-icons/md';
+import { MdLogout, MdOutlineDashboard } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
@@ -17,13 +18,22 @@ const Sidebar = () => {
           </h1>
           <ul className="flex flex-col gap-2 mt-16">
             <li className="bg-slate-100 py-3 px-4 rounded-md group">
-              <a
-                href="/stok"
+              <Link
+                to="/admin/dashboard"
+                className="flex text-primary font-semibold text-sm gap-2 items-center"
+              >
+                <MdOutlineDashboard />
+                Dashboard
+              </Link>
+            </li>
+            <li className="bg-slate-100 py-3 px-4 rounded-md group">
+              <Link
+                to="/admin/report"
                 className="flex text-primary font-semibold text-sm gap-2 items-center"
               >
                 <FiArchive />
                 Stok Darah
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

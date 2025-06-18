@@ -1,10 +1,9 @@
 import AdminLayout from '../../components/layouts/AdminLayout';
-import StokDisplay from '../../components/views/admin/StokDisplay';
 
 const DashboardPage = () => {
   return (
     <AdminLayout>
-      <StokDisplay />
+      <h3>DashboardPage</h3>
     </AdminLayout>
   );
 };
