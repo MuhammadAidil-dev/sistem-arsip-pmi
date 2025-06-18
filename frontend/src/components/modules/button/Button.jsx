@@ -10,6 +10,7 @@ const Button = ({
       type={type}
       className={`${color} ${textColor} w-full font-semibold text-sm py-2 px-4 rounded-sm cursor-pointer`}
       onClick={() => event()}
+
     >
       {text}
     </button>
