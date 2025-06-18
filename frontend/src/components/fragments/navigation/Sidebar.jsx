@@ -32,7 +32,8 @@ const Sidebar = () => {
                 className="flex text-primary font-semibold text-sm gap-2 items-center"
               >
                 <FiArchive />
-                Stok Darah
+                Laporan Darah
+
               </Link>
             </li>
           </ul>
