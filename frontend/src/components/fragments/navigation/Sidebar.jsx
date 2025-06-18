@@ -33,7 +33,6 @@ const Sidebar = () => {
               >
                 <FiArchive />
                 Laporan Darah
-
               </Link>
             </li>
           </ul>
