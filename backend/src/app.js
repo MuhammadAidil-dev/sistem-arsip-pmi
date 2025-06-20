@@ -7,12 +7,13 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const errorHandler = require('./middlewares/errors/errorHandler');
 const apiRoutes = require('./routes');
+const allowedOrigins = ['http://localhost:5173'];
 
 // global middleware
 app.use(cookieParser());
 app.use(
   cors({
-    origin: '*',
+    origin: allowedOrigins,
     credentials: true,
   })
 );
