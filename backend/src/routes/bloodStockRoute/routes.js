@@ -7,6 +7,7 @@ const {
 const {
   createBloodStockSchema,
   updateBloodStockSchema,
+  updateQuantitySchema,
 } = require('../../lib/validations/bloodStock.validations');
 const {
   authenticate,
@@ -14,6 +15,7 @@ const {
 } = require('../../middlewares/authenticate/authenticateMiddlewares');
 const bloodStockRoutes = express.Router();
 
+// static route
 bloodStockRoutes.get('/', bloodStockController.getAllData);
 bloodStockRoutes.post(
   '/',
@@ -23,7 +25,16 @@ bloodStockRoutes.post(
   bloodStockController.createStock
 );
 bloodStockRoutes.put(
+  '/stock',
+  validateRequest(updateQuantitySchema),
+  bloodStockController.updateQuantity
+);
+
+// dynamic route
+bloodStockRoutes.put(
   '/:id',
+  authenticate,
+  authorizeRole('admin'),
   validateRequest(updateBloodStockSchema),
   bloodStockController.updateStock
 );
