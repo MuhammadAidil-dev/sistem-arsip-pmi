@@ -1,9 +1,11 @@
+const { Op } = require('sequelize');
 const { CODE } = require('../../config/errorConfig');
 const { NotFoundError } = require('../../middlewares/errors/errorTypes');
 const BloodStock = require('../../models/bloodStockModel/model');
 
 const bloodStockController = {
   getAllData: async (req, res, next) => {
+    console.log('Controller: getAllData dipanggil');
     try {
       const bloodStocks = await BloodStock.findAll();
 
@@ -21,6 +23,7 @@ const bloodStockController = {
     });
   },
   createStock: async (req, res, next) => {
+    console.log('Controller: createStock dipanggil');
     try {
       const { blood_type, rhesus, quantity, blood_component_type } = req.body;
       const bloodStocks = await BloodStock.findAll();
@@ -64,6 +67,7 @@ const bloodStockController = {
     }
   },
   updateStock: async (req, res, next) => {
+    console.log('Controller: updatedStock dipanggil');
     try {
       const payload = req.body;
       const { id } = req.params;
@@ -83,6 +87,7 @@ const bloodStockController = {
     }
   },
   deleteStock: async (req, res, next) => {
+    console.log('Controller: deleteStock dipanggil');
     try {
       const { id } = req.params;
       const bloodStock = await BloodStock.findByPk(id);
@@ -94,6 +99,29 @@ const bloodStockController = {
       return res.status(CODE.success).json({
         status: 'success',
         message: 'Berhasil menghapus data stok',
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  updateQuantity: async (req, res, next) => {
+    console.log('Controller: updateQuantity dipanggil');
+    try {
+      const { blood_type, rhesus, blood_component_type, quantity } = req.body;
+      const bloodStock = await BloodStock.findOne({
+        where: {
+          [Op.and]: [{ blood_type }, { rhesus }, { blood_component_type }],
+        },
+      });
+      if (!bloodStock) {
+        throw new NotFoundError('Data tidak ditemukan');
+      }
+
+      const updatedStock = await bloodStock.update({ quantity });
+      return res.status(CODE.success).json({
+        status: 'success',
+        message: 'Berhasil memperbarui data stok',
+        data: updatedStock,
       });
     } catch (error) {
       next(error);
