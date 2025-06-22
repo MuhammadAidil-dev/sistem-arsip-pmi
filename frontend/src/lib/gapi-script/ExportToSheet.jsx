@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import { gapi } from 'gapi-script';
 import CONFIG from '../../config/config';
+import { ToastError, ToastSuccess } from '../toastify/Toast';
 
 const CLIENT_ID = CONFIG.CLIENT_ID;
 const API_KEY = CONFIG.API_KEY;
@@ -57,15 +58,15 @@ const ExportToSheetCore = ({ data }) => {
           },
         });
 
-        alert('Data berhasil di-export ke Google Sheets!');
+        ToastSuccess('Data berhasil di-export ke Google Sheets!');
       } catch (err) {
         console.error('Gagal export:', err);
-        alert('Gagal export data.');
+        ToastError('Gagal export data');
       }
     },
     onError: (err) => {
       console.error('Login gagal:', err);
-      alert('Gagal login ke Google.');
+      ToastError('Gagal login ke Google');
     },
     scope: SCOPES,
     flow: 'implicit', // atau 'auth-code' jika backend terlibat
@@ -74,7 +75,7 @@ const ExportToSheetCore = ({ data }) => {
   return (
     <button
       onClick={() => login()}
-      className="bg-green-500 font-semibold text-white text-sm py-2 px-4"
+      className="bg-green-500 font-semibold text-white text-sm py-2 px-4 cursor-pointer"
     >
       Export ke Google Sheets
     </button>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Input from '../../modules/input/Input';
 import Button from '../../modules/button/Button';
 import { updateQuantity } from '../../../api/bloodStockApi';
+import { ToastError, ToastSuccess } from '../../../lib/toastify/Toast';
 
 const UpdateStokModal = ({ closeModal, getDataStock }) => {
   const listTypesBlood = ['A', 'B', 'AB', 'O'];
@@ -31,10 +32,10 @@ const UpdateStokModal = ({ closeModal, getDataStock }) => {
       });
       closeModal();
       getDataStock();
-      alert(message || 'Berhasil memperbarui data');
+      ToastSuccess(message || 'Berhasil memperbarui data');
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      ToastError(error.message || 'Gagal memperbarui data');
     }
   };
 
