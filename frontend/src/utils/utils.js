@@ -7,3 +7,7 @@ export const formatedDate = (dateString) => {
     year: 'numeric',
   }).format(date);
 };
+
+export const checkActivedSidebar = (url, checkUrl) => {
+  return url === checkUrl;
+};
