@@ -25,7 +25,7 @@ const DashboardPage = () => {
 
   return (
     <AdminLayout>
-      <DashboardDisplay dataStok={dataStok} />
+      <DashboardDisplay dataStok={dataStok} getDataStock={fetchStok} />
     </AdminLayout>
   );
 };

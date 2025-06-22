@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import Input from '../../modules/input/Input';
 import Button from '../../modules/button/Button';
+import { updateQuantity } from '../../../api/bloodStockApi';
+import { ToastError, ToastSuccess } from '../../../lib/toastify/Toast';
 
-const UpdateStokModal = () => {
+const UpdateStokModal = ({ closeModal, getDataStock }) => {
   const listTypesBlood = ['A', 'B', 'AB', 'O'];
   const listTypesComponentBlood = ['WB', 'PRC', 'TC'];
   const listRhesus = ['+', '-'];
@@ -14,13 +16,39 @@ const UpdateStokModal = () => {
     quantity: 0,
   });
 
+  const hanldeUpdateQuantity = async (e) => {
+    e.preventDefault();
+    try {
+      const { status, message } = await updateQuantity(inputData);
+      if (status !== 'success') {
+        throw new Error(message || 'Gagal memperbarui data stok');
+      }
+      // set input data to default
+      setInputData({
+        blood_type: 'A',
+        rhesus: '+',
+        blood_component_type: 'WB',
+        quantity: 0,
+      });
+      closeModal();
+      getDataStock();
+      ToastSuccess(message || 'Berhasil memperbarui data');
+    } catch (error) {
+      console.error(error);
+      ToastError(error.message || 'Gagal memperbarui data');
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/30 flex justify-center items-center">
-      <div className="bg-white w-[700px] rounded-sm py-4 px-8 flex flex-col">
+      <div className="bg-white w-[700px] rounded-sm p-8 flex flex-col">
         <h3 className="font-semibold text-lg text-primary">
           Perbarui Data Stok
         </h3>
-        <form className="flex flex-col gap-4 mt-4">
+        <form
+          onSubmit={hanldeUpdateQuantity}
+          className="flex flex-col gap-4 mt-4"
+        >
           <div className="flex flex-col gap-2">
             <label
               htmlFor="typeBlood"
@@ -107,7 +135,8 @@ const UpdateStokModal = () => {
             }}
           />
 
-          <Button text="Submit" type="submit" />
+          <Button text="Submit" type="submit" color="bg-green-500" />
+          <Button text="Batal" type="button" event={closeModal} />
         </form>
       </div>
     </div>

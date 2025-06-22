@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import StokCard from '../../fragments/card/StokCard';
 import UpdateStokModal from '../../fragments/modal/UpdateStokModal';
 import TabelStok from '../../fragments/tabel/TabelStok';
 import Button from '../../modules/button/Button';
 
-const DashboardDisplay = ({ dataStok }) => {
+const DashboardDisplay = ({ dataStok, getDataStock }) => {
   const stok = Object.values(
     dataStok.reduce((acc, item) => {
       const { blood_type, quantity } = item;
@@ -16,6 +17,8 @@ const DashboardDisplay = ({ dataStok }) => {
     }, {})
   );
 
+  const [isOpen, setIsOpen] = useState(false);
+
   if (dataStok.length === 0) {
     return (
       <h3 className="text-center text-lg font-semibold">Tidak ada data stok</h3>
@@ -27,7 +30,11 @@ const DashboardDisplay = ({ dataStok }) => {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-semibold text-dark">Total Stok</h2>
         <div className="w-36">
-          <Button text="Perbarui Data" color="bg-primary" />
+          <Button
+            text="Perbarui Data"
+            color="bg-primary"
+            event={() => setIsOpen(true)}
+          />
         </div>
       </div>
       <div className="grid grid-cols-4 mt-8 gap-4">
@@ -47,7 +54,12 @@ const DashboardDisplay = ({ dataStok }) => {
       </div>
 
       {/* modal update data */}
-      <UpdateStokModal />
+      {isOpen && (
+        <UpdateStokModal
+          closeModal={() => setIsOpen(false)}
+          getDataStock={getDataStock}
+        />
+      )}
     </div>
   );
 };
