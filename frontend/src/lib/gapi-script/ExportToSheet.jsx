@@ -3,6 +3,7 @@ import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import { gapi } from 'gapi-script';
 import CONFIG from '../../config/config';
 import { ToastError, ToastSuccess } from '../toastify/Toast';
+import { createRecord } from '../../api/stockRecordApi';
 
 const CLIENT_ID = CONFIG.CLIENT_ID;
 const API_KEY = CONFIG.API_KEY;
@@ -47,6 +48,13 @@ const ExportToSheetCore = ({ data }) => {
           ...data.map((item) => Object.values(item)),
         ];
 
+        // create stock record
+        const payload = {
+          id_record: spreadsheetId,
+          note: 'Data stok pada ' + new Date().toLocaleString(),
+        };
+        await createRecord(payload);
+
         await gapi.client.request({
           path: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Sheet1!A1?valueInputOption=RAW`,
           method: 'PUT',
@@ -61,7 +69,7 @@ const ExportToSheetCore = ({ data }) => {
         ToastSuccess('Data berhasil di-export ke Google Sheets!');
       } catch (err) {
         console.error('Gagal export:', err);
-        ToastError('Gagal export data');
+        ToastError(err.message || 'Gagal export data');
       }
     },
     onError: (err) => {

@@ -2,10 +2,10 @@ import { FiArchive } from 'react-icons/fi';
 import { MdLogout, MdOutlineDashboard } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
 import { checkActivedSidebar } from '../../../utils/utils';
+import { FaRegFileAlt } from 'react-icons/fa';
 
 const Sidebar = () => {
   const location = useLocation();
-  console.log(location);
 
   return (
     <aside className="fixed inset-y-0 left-0 w-[300px] bg-white shadow-md">
@@ -49,6 +49,21 @@ const Sidebar = () => {
               >
                 <FiArchive />
                 Laporan Darah
+              </Link>
+            </li>
+            <li
+              className={`${
+                checkActivedSidebar(location.pathname, '/admin/stock-record')
+                  ? 'bg-slate-100 text-primary'
+                  : 'text-dark'
+              } py-3 px-4 rounded-md group`}
+            >
+              <Link
+                to="/admin/stock-record"
+                className="flex font-semibold text-sm gap-2 items-center"
+              >
+                <FaRegFileAlt />
+                Rekaman Stok
               </Link>
             </li>
           </ul>

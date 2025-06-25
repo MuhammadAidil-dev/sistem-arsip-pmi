@@ -3,6 +3,7 @@ import DashboardPage from './pages/admin/DashboardPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import ReportPage from './pages/admin/ReportPage';
+import RecordStockPage from './pages/admin/RecordStockPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         {/* admin route */}
         <Route index path="/admin/dashboard" element={<DashboardPage />} />
         <Route index path="/admin/report" element={<ReportPage />} />
+        <Route index path="/admin/stock-record" element={<RecordStockPage />} />
 
         {/* auth route */}
         <Route index path="/login" element={<LoginPage />} />
