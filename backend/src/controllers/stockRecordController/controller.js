@@ -17,7 +17,7 @@ const stockRecordController = {
     }
   },
   createRecord: async (req, res, next) => {
-    console.log('Controller: createStock dipanggil');
+    console.log('Controller: createRecord dipanggil');
     try {
       const { id_record, note } = req.body;
 
