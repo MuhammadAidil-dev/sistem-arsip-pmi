@@ -34,7 +34,7 @@ const UpdateStokModal = ({ closeModal, getDataStock }) => {
       getDataStock();
       ToastSuccess(message || 'Berhasil memperbarui data');
     } catch (error) {
-      console.error(error);
+      console.error('hanldeUpdateQuantity : ', error);
       ToastError(error.message || 'Gagal memperbarui data');
     }
   };
