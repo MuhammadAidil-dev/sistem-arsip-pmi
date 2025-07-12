@@ -5,25 +5,6 @@ const bcrypt = require('bcrypt');
 const User = sequelize.define(
   'User',
   {
-    fullname: {
-      type: DataTypes.STRING,
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: {
-        msg: 'Username sudah digunakan',
-      },
-      validate: {
-        notEmpty: {
-          msg: 'Username tidak boleh kosong',
-        },
-        len: {
-          args: [5],
-          msg: 'Username minimal 5 karakter',
-        },
-      },
-    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -57,9 +38,6 @@ const User = sequelize.define(
         if (user.password) {
           const salt = await bcrypt.genSalt(10);
           user.password = await bcrypt.hash(user.password, salt);
-        }
-        if (user.username) {
-          user.username = user.username.toLowerCase();
         }
       },
     },
