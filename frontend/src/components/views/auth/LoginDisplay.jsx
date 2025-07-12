@@ -2,24 +2,40 @@ import { useState } from 'react';
 import Input from '../../modules/input/Input';
 import Button from '../../modules/button/Button';
 import { login } from '../../../api/authApi';
+import { ToastError } from '../../../lib/toastify/Toast';
+import { useNavigate } from 'react-router-dom';
+import { saveToLocalStorage } from '../../../utils/utils';
+import { useAuth } from '../../../hook/hook';
 
 const LoginDisplay = () => {
   const [inputData, setInputData] = useState({
     email: '',
     password: '',
   });
+  const { setAuthUser } = useAuth();
+
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      if (!inputData.email || !inputData.password) {
+        throw new Error('Input tidak boleh kosong');
+      }
+
       const { status, message, data } = await login(inputData);
       if (status !== 'success') {
         throw new Error(message || 'Gagal login');
       }
-      console.log(data);
-      alert('Berhasil login');
+      saveToLocalStorage('authUser', data);
+      setInputData({
+        email: '',
+        password: '',
+      });
+      setAuthUser(data);
+      navigate('/admin');
     } catch (error) {
-      alert(error.message);
+      ToastError(error.message);
     }
   };
 

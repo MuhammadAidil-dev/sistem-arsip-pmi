@@ -1,11 +1,28 @@
 import { FiArchive } from 'react-icons/fi';
 import { MdLogout, MdOutlineDashboard } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
-import { checkActivedSidebar } from '../../../utils/utils';
+import { checkActivedSidebar, removeLocalStorage } from '../../../utils/utils';
 import { FaRegFileAlt } from 'react-icons/fa';
+import { ToastError } from '../../../lib/toastify/Toast';
+import { logout } from '../../../api/authApi';
+import { useAuth } from '../../../hook/hook';
 
 const Sidebar = () => {
   const location = useLocation();
+  const { setAuthUser } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      const { status, message } = await logout();
+      if (status !== 'success') {
+        throw new Error(message || 'Gagal logout');
+      }
+      removeLocalStorage('authUser');
+      setAuthUser(null);
+    } catch (error) {
+      ToastError(error.message);
+    }
+  };
 
   return (
     <aside className="fixed inset-y-0 left-0 w-[300px] bg-white shadow-md">
@@ -71,7 +88,10 @@ const Sidebar = () => {
 
         {/* Bagian bawah: tombol logout */}
         <div className="pb-8">
-          <button className="border-b border-b-black flex items-center gap-2 pb-2 px-4 w-full text-sm font-medium text-dark cursor-pointer">
+          <button
+            onClick={handleLogout}
+            className="border-b border-b-black flex items-center gap-2 pb-2 px-4 w-full text-sm font-medium text-dark cursor-pointer"
+          >
             <MdLogout />
             Logout
           </button>
