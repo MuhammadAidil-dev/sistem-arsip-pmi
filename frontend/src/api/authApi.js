@@ -64,3 +64,19 @@ export const logout = async () => {
     return { status: 'error', message: error.message };
   }
 };
+
+export const checkAuth = async () => {
+  try {
+    const { status, message, data } = await fetchData(
+      `${CONFIG.API_URL}/auth/check-auth`
+    );
+
+    if (status !== 'success') {
+      throw new Error(message || 'Gagal check auth');
+    }
+
+    return { status, message, data };
+  } catch (error) {
+    return { status: 'error', message: error.message, data: null };
+  }
+};

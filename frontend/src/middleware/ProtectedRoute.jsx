@@ -4,8 +4,7 @@ import { useAuth } from '../hook/hook';
 const ProtectedRoute = ({ children }) => {
   const { authUser, loading } = useAuth();
 
-  if (!authUser) {
-    // Redirect ke login
+  if (!authUser || authUser.role !== 'admin') {
     return <Navigate to="/login" replace />;
   }
 
