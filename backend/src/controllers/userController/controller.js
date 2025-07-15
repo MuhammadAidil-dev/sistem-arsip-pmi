@@ -81,6 +81,18 @@ const userController = {
       next(error);
     }
   },
+  checkAuth: async (req, res, next) => {
+    try {
+      const user = req.user;
+      res.status(CODE.success).json({
+        status: 'success',
+        message: 'Berhasil mengambil data user login',
+        data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = userController;
