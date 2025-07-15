@@ -27,6 +27,7 @@ bloodStockRoutes.post(
 bloodStockRoutes.put(
   '/stock',
   authenticate,
+  authorizeRole('admin'),
   validateRequest(updateQuantitySchema),
   bloodStockController.updateQuantity
 );
@@ -39,6 +40,11 @@ bloodStockRoutes.put(
   validateRequest(updateBloodStockSchema),
   bloodStockController.updateStock
 );
-bloodStockRoutes.delete('/:id', authenticate, bloodStockController.deleteStock);
+bloodStockRoutes.delete(
+  '/:id',
+  authenticate,
+  authorizeRole('admin'),
+  bloodStockController.deleteStock
+);
 
 module.exports = bloodStockRoutes;

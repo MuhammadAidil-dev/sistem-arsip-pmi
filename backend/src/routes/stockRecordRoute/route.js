@@ -7,12 +7,18 @@ const stockRecordController = require('../../controllers/stockRecordController/c
 const {
   createRecordSchema,
 } = require('../../lib/validations/stockRecord.validation');
+const {
+  authenticate,
+  authorizeRole,
+} = require('../../middlewares/authenticate/authenticateMiddlewares');
 const stockRecordRoutes = express.Router();
 
 // static route
 stockRecordRoutes.get('/', stockRecordController.getAllRecord);
 stockRecordRoutes.post(
   '/',
+  authenticate,
+  authorizeRole('admin'),
   validateRequest(createRecordSchema),
   stockRecordController.createRecord
 );
